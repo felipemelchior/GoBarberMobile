@@ -1,12 +1,11 @@
-import React from 'react';
-import { Image } from 'react-native';
-
+import React, { useRef } from 'react';
 import logo from '~/assets/logo.png';
 
 import Background from '~/components/Background';
 
 import {
   Container,
+  Logo,
   Form,
   FormInput,
   SubmitButton,
@@ -14,11 +13,15 @@ import {
   SignLinkText,
 } from './styles';
 
-export default function SignIn() {
+function SignIn({ navigation }) {
+  const passwordRef = useRef();
+
+  function handleSubmit() {}
+
   return (
     <Background>
       <Container>
-        <Image source={logo} />
+        <Logo source={logo} />
 
         <Form>
           <FormInput
@@ -27,21 +30,28 @@ export default function SignIn() {
             autoCorrect={false}
             autoCapitalize="none"
             placeholder="Digite seu e-mail"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current.focus()}
           />
 
           <FormInput
             icon="lock-outline"
             secureTextEntry
             placeholder="Sua senha secreta"
+            ref={passwordRef}
+            returnKeyType="send"
+            onSubmitEditing={handleSubmit}
           />
 
-          <SubmitButton onPress={() => {}}>Acessar</SubmitButton>
+          <SubmitButton onPress={handleSubmit}>Acessar</SubmitButton>
         </Form>
 
-        <SignLink onPress={() => {}}>
+        <SignLink onPress={() => navigation.navigate('SignUp')}>
           <SignLinkText>Criar conta gratuita</SignLinkText>
         </SignLink>
       </Container>
     </Background>
   );
 }
+
+export default SignIn;
